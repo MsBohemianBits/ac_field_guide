@@ -40,6 +40,7 @@ class _IndexPageState extends State<IndexPage> {
         ],
       ),
       body: CustomScrollView(
+        semanticChildCount: 4,
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 150.0,
@@ -71,13 +72,46 @@ class _IndexPageState extends State<IndexPage> {
             ),
           ),
           SliverFixedExtentList(
-            itemExtent: 50.0,
+            itemExtent: 70.0,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: Colors.purpleAccent[100 * (index % 9)],
-                  child: Text('List Item $index'),
+                if (index > 3) return null;
+                return Card(
+                  color: Colors.white,
+                  elevation: 0.0,
+                  child: ListTile(
+                    leading: Stack(
+                      children: <Widget>[
+                        CircleAvatar(
+                          radius: 30,
+                        ),
+                        Positioned(
+                          bottom: 0.0,
+                          right: 1.0,
+                          child: Container(
+                            height: 50,
+                            width: 20,
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    title: Text(
+                      "Fishing Tournament",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text("Saturday, April 11th, 2020"),
+
+                  ),
+
                 );
               },
             ),
