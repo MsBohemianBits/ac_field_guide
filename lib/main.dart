@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'modal/events.dart';
+import 'widgets/events.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,6 +29,23 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   @override
   Widget build(BuildContext context) {
+    //insert
+    List<Widget> widgets = List<Widget>();
+    events.forEach((k, v) => {
+          {
+            widgets.add(CustomListItemTwo(
+              thumbnail: Container(
+                decoration: const BoxDecoration(color: Colors.pink),
+              ),
+              title: k.toString(),
+              subtitle: v,
+              author: 'Dash',
+              publishDate: 'Dec 28',
+              readDuration: '5 mins',
+            ))
+          }
+        });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -40,7 +60,7 @@ class _IndexPageState extends State<IndexPage> {
         ],
       ),
       body: CustomScrollView(
-        semanticChildCount: 4,
+        semanticChildCount: events.length,
         slivers: <Widget>[
           SliverAppBar(
             expandedHeight: 150.0,
@@ -73,48 +93,7 @@ class _IndexPageState extends State<IndexPage> {
           ),
           SliverFixedExtentList(
             itemExtent: 70.0,
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                if (index > 3) return null;
-                return Card(
-                  color: Colors.white,
-                  elevation: 0.0,
-                  child: ListTile(
-                    leading: Stack(
-                      children: <Widget>[
-                        CircleAvatar(
-                          radius: 30,
-                        ),
-                        Positioned(
-                          bottom: 0.0,
-                          right: 1.0,
-                          child: Container(
-                            height: 50,
-                            width: 20,
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    title: Text(
-                      "Fishing Tournament",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Saturday, April 11th, 2020"),
-
-                  ),
-
-                );
-              },
-            ),
+            delegate: SliverChildListDelegate(widgets),
           ),
         ],
       ),
