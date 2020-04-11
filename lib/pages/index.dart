@@ -11,8 +11,41 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: New Horizons',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 1: Pocket Camp',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: New Leaf',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: City Folk',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 2: Wild World',
+      style: optionStyle,
+    ),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
+
     // Build widget listing.
     List<Widget> widgets = List<Widget>();
     events.forEach((k, v) => {
@@ -40,6 +73,34 @@ class _IndexPageState extends State<IndexPage> {
             },
           ),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pets),
+            title: Text('New Horizons'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mobile_screen_share),
+            title: Text('Pocket Camp'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.looks),
+            title: Text('New Leaf'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_city),
+            title: Text('City Folk'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            title: Text('Wild World'),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
       ),
       body: CustomScrollView(
         semanticChildCount: events.length,
