@@ -1,97 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
-class _ArticleDescription extends StatelessWidget {
-  _ArticleDescription({
-    Key key,
-    this.title,
-    this.subtitle,
-    this.author,
-    this.publishDate,
-    this.readDuration,
-  }) : super(key: key);
-
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          flex: 2,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                '$title',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(bottom: 2.0)),
-              Text(
-                '$subtitle',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                '$author',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black87,
-                ),
-              ),
-              Text(
-                '$publishDate · $readDuration ★',
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class CustomListItemTwo extends StatelessWidget {
-  CustomListItemTwo({
+class EventsListing extends StatelessWidget {
+  EventsListing({
     Key key,
     this.thumbnail,
-    this.title,
-    this.subtitle,
-    this.author,
-    this.publishDate,
-    this.readDuration,
+    this.eventTitle,
+    this.eventDateTime,
+    this.eventCategory,
   }) : super(key: key);
 
   final Widget thumbnail;
-  final String title;
-  final String subtitle;
-  final String author;
-  final String publishDate;
-  final String readDuration;
+  final String eventTitle;
+  final String eventDateTime;
+  final String eventCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +23,22 @@ class CustomListItemTwo extends StatelessWidget {
       child: ListTile(
         leading: Stack(
           children: <Widget>[
-            CircleAvatar(
-              radius: 30,
+            InkWell(
+              onTap: () {
+                final Event event = Event(
+                  title: 'Event title',
+                  description: 'Event description',
+                  location: 'Event location',
+                  startDate: DateTime.parse(eventDateTime),
+                  endDate: DateTime.parse(eventDateTime),
+                );
+                Add2Calendar.addEvent2Cal(event);
+              },
+              child:  CircleAvatar(
+                radius: 30,
+              ),
             ),
+
             Positioned(
               bottom: 0.0,
               right: 1.0,
@@ -124,10 +59,10 @@ class CustomListItemTwo extends StatelessWidget {
           ],
         ),
         title: Text(
-          title,
+          eventTitle,
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(subtitle),
+        subtitle: Text(DateTime.parse(eventDateTime).toString()),
       ),
     );
   }
